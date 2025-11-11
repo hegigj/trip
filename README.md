@@ -7,53 +7,45 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 To start a local development server, run:
 
 ```bash
-ng serve
+  ng serve
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+## App Trips
+App Trips is an Angular App that will be the main place for our users to see data about trips.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- The team will assess against topics such as clean code, following good practices, and SOLID principles.
+- It is important that you read carefully through the entire description to understand what we are trying to achieve. Keep in mind that the solution has to be scalable and should address potential performance issues.
+- Testing is a must. Although not all classes are mandatory, please make sure you’re testing the most important functionalities.
 
-```bash
-ng generate component component-name
-```
+The App will have a home page that will list the trips returned by the list endpoint, with the name of the trip and its basic traits, as well as the trip's thumbnail. This won't display the description inside the trip structure The home page will allow you to sort the trips based on the quantifiable criteria: price, creationDate, rating, name, or verticalType.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- There will be a detail page that will be accessible from the home page, by tapping on the cell/row for a particular trip
 
-```bash
-ng generate --help
-```
+- The detail page will display the photo of the trip in a bigger size, and all the data, including the description
 
-## Building
+- Navigation back and forth between detail and home should be possible
 
-To build the project run:
+- If any kind of sorting is applied, and detail is opened, navigating to home should preserve this order.
 
-```bash
-ng build
-```
+- There should be a button that gives us the "trip of the day" on the home page. The trip of the day should not change during the navigation and will remain the same for the whole day.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Bonus
+Implement a score badge visible on each trip, it should be based on `rating`, `nrOfRatings` and `co2` (the way to calculate it is up to you, but there should be 3 tiers assignable to the resulting score). 
 
-## Running unit tests
+Here you can find the three tiers:
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- `average`
+- `good`
+- `awesome`
 
-```bash
-ng test
-```
+## Technical details
+In order to have App Trips working, you can use this API:
 
-## Running end-to-end tests
+https://iy3ipnv3uc.execute-api.eu-west-1.amazonaws.com/Prod/docs
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Considerations
+- More trips and trip types can be added in the future
+- We could have millions of trips available in the near future and we need to take into account the performance
+- App Trips can have users in different countries
