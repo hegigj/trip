@@ -17,17 +17,15 @@ export class ApiTripService {
   public getTrips(query: TripQueryDto = { page: 1, limit: 10 }): Observable<PageOf<TripDto>> {
     let params: HttpParams = new HttpParams();
 
-    for (const key in query) {
-      const queryKey = key as keyof TripQueryDto;
-
-      if (query[queryKey] !== undefined) {
-        if (queryKey === 'tags') {
-          params = params.append(queryKey, (query.tags as string[]).join(','));
+    Object.entries(query).forEach(([key, value]) => {
+      if (value !== undefined) {
+        if (Array.isArray(value)) {
+          params = params.append(key, value.join(','));
         } else {
-          params = params.append(queryKey, query[queryKey]);
+          params = params.append(key, value);
         }
       }
-    }
+    });
 
     return this.httpClient.get<PageOf<TripDto>>(this.apiTrip.get(), { params });
   }
