@@ -1,11 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {ToolbarComponent} from './shared/components/toolbar/toolbar.component';
 
 @Component({
   selector: 'root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ToolbarComponent],
   templateUrl: './app.html'
 })
 export class App {
-  protected readonly title = signal('bizaway-trip');
 }

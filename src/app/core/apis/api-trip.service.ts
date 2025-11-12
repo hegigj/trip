@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {apiConfig} from '../config/api.config';
+import {apiConfig} from '../configs/api.config';
 import {environment} from '../../../environments/environment.development';
 import {PageOf} from '../dto/page-of.dto';
 import {TripDto} from '../dto/trip.dto';
