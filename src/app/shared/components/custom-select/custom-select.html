@@ -1,0 +1,7 @@
+<select [value]="value()" (change)="onSelect($event)">
+  <option [value]="null">{{label()}}</option>
+
+  @for (option of options(); track $index) {
+    <option [value]="option.value">{{option.label}}</option>
+  }
+</select>

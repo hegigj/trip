@@ -1,0 +1,48 @@
+<form
+  class="flex flex-wrap gap-2"
+  [formGroup]="searchQueryForm"
+  (reset)="resetSearchQuery()"
+>
+  <input
+    type="text"
+    name="title"
+    placeholder="Search..."
+    formControlName="title"
+  >
+  <custom-select
+    label="Sort by:"
+    [options]="sortByOptions"
+    formControlName="sortBy"
+  />
+  <custom-select
+    label="Order:"
+    [options]="sortOrderOptions"
+    formControlName="sortOrder"
+  />
+  <input
+    type="number"
+    name="minPrice"
+    placeholder="Minimum you can pay:"
+    formControlName="minPrice"
+  >
+  <input
+    type="number"
+    name="maxPrice"
+    placeholder="Maximum you can pay:"
+    formControlName="maxPrice"
+  >
+  <input
+    type="number"
+    name="minRating"
+    placeholder="Rating starts from:"
+    [min]="1"
+    [max]="5"
+    [step]=".1"
+    formControlName="minRating"
+  >
+  @if (showResetButton()) {
+    <button class="px-3 py-1 rounded-md bg-slate-200 text-cyan-900 cursor-pointer" type="reset">
+      Reset
+    </button>
+  }
+</form>

@@ -9,3 +9,32 @@ toolbar {
     @apply cursor-auto;
   }
 }
+
+trips {
+  section {
+    @apply p-4;
+    h2 {
+      @apply font-bold text-sm text-cyan-900;
+    }
+  }
+}
+
+trip-search {
+  select,
+  ::picker(select) {
+    appearance: base-select;
+  }
+
+  input {
+    appearance: none;
+  }
+
+  input {
+    @apply min-w-52;
+  }
+
+  select,
+  input {
+    @apply px-3 py-1 rounded-md bg-slate-200 text-cyan-900 border-2 border-solid border-cyan-900;
+  }
+}
