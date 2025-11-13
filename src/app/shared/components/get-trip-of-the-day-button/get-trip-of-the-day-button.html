@@ -1,0 +1,11 @@
+<button
+  type="button"
+  class="relative duration-300 ease-in-out"
+  [disabled]="disabled()"
+  (click)="getTripOfTheDayHandler()"
+>
+  <span [class.opacity-10]="disabled()">Get Trip Of The Day</span>
+  @if (disabled()) {
+    <span class="absolute inset-x-0 top-[.4rem] font-bold text-sm text-red-500">Available in: {{availableIn()}}</span>
+  }
+</button>
