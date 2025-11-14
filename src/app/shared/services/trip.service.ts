@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {TripDto} from '../../core/dto/trip.dto';
 import {PageOf} from '../../core/dto/page-of.dto';
 import {ActivatedRoute, Router} from '@angular/router';
+import {storageConfig} from '../../core/configs/storage.config';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,8 @@ export class TripService {
         )
       }
     }
+
+    this.storeTripQuery();
   }
 
   public updateTripQueryWithPaginatorValues(paginatorValues: IPaginator): void {
@@ -63,6 +66,8 @@ export class TripService {
       page,
       limit
     };
+
+    this.storeTripQuery();
   }
 
   public getTrips(): Observable<PageOf<TripDto>> {
@@ -83,5 +88,40 @@ export class TripService {
 
   public navigateBackToTrips(router: Router, route: ActivatedRoute): void {
     router.navigate(['..'], { relativeTo: route });
+  }
+
+  public getSearchQuery(): Partial<ISearchQuery> {
+    return Object.entries(this.tripsQuery)
+      .filter(([key]) => !['page', 'limit'].includes(key))
+      .reduce(
+        (acc, [key, value]) => {
+          switch (key) {
+            case 'titleFilter':
+              return { ...acc, title: value };
+            case 'sortBy':
+            case 'sortOrder':
+            case 'minPrice':
+            case 'maxPrice':
+            case 'minRating':
+              return { ...acc, [key]: value };
+            default:
+              return acc;
+          }
+        },
+        {}
+      );
+  }
+
+  public getPaginatorValues(): IPaginator {
+    const { page, limit } = this.tripsQuery;
+
+    return {
+      page,
+      limit
+    }
+  }
+
+  private storeTripQuery(): void {
+    localStorage.setItem(storageConfig.tripsSearchQuery, JSON.stringify(this.tripsQuery));
   }
 }

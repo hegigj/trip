@@ -22,6 +22,7 @@ export class Trips implements OnInit {
   protected tripOfTheDay = signal<TripDto | null>(null);
   protected trips = signal<TripDto[]>([]);
   protected totalTrips = signal<number>(10);
+  protected storedSearchQuery = signal<Partial<ISearchQuery> | undefined>(undefined);
 
   protected readonly limitOptions = [10, 20, 30, 50, 100];
 
@@ -31,6 +32,7 @@ export class Trips implements OnInit {
 
   ngOnInit(): void {
     this.getTrips();
+    this.storedSearchQuery.set(this.tripService.getSearchQuery());
   }
 
   protected searchQueryHandler(searchQuery: Partial<ISearchQuery> | null): void {

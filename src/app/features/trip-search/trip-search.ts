@@ -1,4 +1,4 @@
-import {Component, DestroyRef, inject, OnInit, output, signal} from '@angular/core';
+import {Component, DestroyRef, inject, input, OnChanges, OnInit, output, signal} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ISearchQueryForm} from '../../shared/interfaces/search-query-form.interface';
 import {ISearchQuery} from '../../shared/interfaces/search-query.interface';
@@ -15,7 +15,8 @@ import {ISelectOption} from '../../shared/interfaces/select-option.interface';
   ],
   templateUrl: './trip-search.html'
 })
-export class TripSearch implements OnInit {
+export class TripSearch implements OnInit, OnChanges {
+  public storedSearchQuery = input<Partial<ISearchQuery>>();
   public searchQuery = output<Partial<ISearchQuery> | null>();
 
   protected readonly searchQueryForm: FormGroup = new FormGroup<ISearchQueryForm>({
@@ -49,8 +50,6 @@ export class TripSearch implements OnInit {
         distinctUntilChanged(this.distinctFormValues),
         filter(this.skipMinRatingInvalidValues),
         tap(searchQuery => {
-          console.log(searchQuery);
-
           // show reset button check
           this.showResetButton.set(
             !Object.entries(searchQuery).every(([_, value]) => value === null)
@@ -71,6 +70,12 @@ export class TripSearch implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
+  }
+
+  ngOnChanges(): void {
+    if (this.storedSearchQuery()) {
+      this.searchQueryForm.patchValue(this.storedSearchQuery() as Partial<ISearchQuery>);
+    }
   }
 
   protected resetSearchQuery(): void {
