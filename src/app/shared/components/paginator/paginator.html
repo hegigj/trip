@@ -1,0 +1,8 @@
+<custom-select
+  label="Items per page:"
+  [options]="innerLimitOptions()"
+  [formControl]="limitControl"
+/>
+<span>{{paginatorResult()}}</span>
+<button type="button" (click)="previousPage()"><</button>
+<button type="button" (click)="nextPage()">></button>

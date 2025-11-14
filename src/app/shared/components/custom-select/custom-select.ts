@@ -1,4 +1,4 @@
-import {Component, input, signal} from '@angular/core';
+import {Component, forwardRef, input, signal} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
 import {ISelectOption} from '../../interfaces/select-option.interface';
 
@@ -10,7 +10,7 @@ import {ISelectOption} from '../../interfaces/select-option.interface';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: CustomSelect,
+      useExisting: forwardRef(() => CustomSelect),
       multi: true
     }
   ],
@@ -20,7 +20,7 @@ export class CustomSelect implements ControlValueAccessor {
   public label = input.required<string>();
   public options = input.required<ISelectOption[]>();
 
-  protected value = signal<any>(null);
+  public value = signal<any>(null);
 
   onChange = (value: any) => {};
   onTouched = () => {};
@@ -38,7 +38,10 @@ export class CustomSelect implements ControlValueAccessor {
   }
 
   protected onSelect(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    const selectedOption = this.options().find(o => o.value == select.value);
+
     this.onTouched();
-    this.onChange((event.target as HTMLSelectElement).value);
+    this.onChange(selectedOption ? selectedOption.value : null);
   }
 }

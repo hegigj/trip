@@ -1,9 +1,21 @@
 <section id="tripSearch">
-  <trip-search/>
+  <trip-search (searchQuery)="searchQueryHandler($event)"/>
 </section>
 <section id="tripOfTheDay">
   <h2>Trip of the day</h2>
 </section>
 <section id="trips">
   <h2>Trips</h2>
+
+  <div class="flex flex-col divide-y-2 divide-dashed divide-cyan-900">
+    @for (trip of trips(); track trip.id) {
+      <trip [trip]="trip" (navigateToTripDetails)="navigateToTripDetails($event)"/>
+    }
+  </div>
+
+  <paginator
+    [limitOptions]="limitOptions"
+    [totalElements]="totalTrips()"
+    (paginatorChange)="paginatorChangeHandler($event)"
+  />
 </section>

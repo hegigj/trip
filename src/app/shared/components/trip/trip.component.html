@@ -1,0 +1,20 @@
+<img class="rounded-md" [src]="trip().thumbnailUrl" [alt]="trip().title"/>
+<div class="flex flex-col gap-4">
+  <h2 class="font-semibold text-cyan-900 text-2xl">{{trip().title}}</h2>
+  <p class="text-cyan-900">
+    Rating:
+    <span class="px-2 py-1 rounded-md bg-amber-300">{{trip().rating}}</span>
+    <em class="ml-1 font-light">({{trip().nrOfRatings}})</em>
+  </p>
+  <p class="text-cyan-900">
+    CO<sub>2</sub> emissions:
+    <span
+      class="px-2 py-1 rounded-md"
+      [class.bg-green-300]="trip().co2 <= 200"
+      [class.bg-red-300]="trip().co2 > 200"
+    >{{trip().co2}}</span>
+  </p>
+</div>
+<div class="flex grow flex-col justify-end content-between">
+  <p class="text-cyan-900 font-bold text-md text-end">{{trip().price | currency}}</p>
+</div>
