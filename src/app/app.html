@@ -1,5 +1,8 @@
 <header>
-  <toolbar/>
+  <toolbar
+    [navigationBackButtonVisibility]="backButtonVisibility()"
+    [shareButtonVisibility]="shareButtonVisibility()"
+  />
 </header>
 <main>
   <router-outlet/>

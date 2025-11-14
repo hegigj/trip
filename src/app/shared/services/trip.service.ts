@@ -69,6 +69,14 @@ export class TripService {
     return this.apiTripService.getTrips(this.tripsQuery);
   }
 
+  public getTripOfTheDay(): Observable<TripDto> {
+    return this.apiTripService.getTrip();
+  }
+
+  public getTripDetails(tripId: string): Observable<TripDto> {
+    return this.apiTripService.getTrip(tripId);
+  }
+
   public navigateToTripDetails(router: Router, route: ActivatedRoute, tripId: string): void {
     router.navigate([tripId], { relativeTo: route });
   }

@@ -59,7 +59,6 @@ export class Paginator implements OnInit , OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['totalElements'].previousValue !== changes['totalElements'].currentValue) {
-      console.log(changes);
       this.currentPage = 1;
       this.selectedLimit = this.limitOptions().at(0) ?? 10;
       this.setPaginatorResult();

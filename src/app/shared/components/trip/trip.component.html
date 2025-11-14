@@ -1,6 +1,22 @@
-<img class="rounded-md" [src]="trip().thumbnailUrl" [alt]="trip().title"/>
+@if (showDetails()) {
+  <img class="rounded-md" [src]="trip().imageUrl" [alt]="trip().title"/>
+} @else {
+  <img class="rounded-md" [src]="trip().thumbnailUrl" [alt]="trip().title"/>
+}
 <div class="flex flex-col gap-4">
   <h2 class="font-semibold text-cyan-900 text-2xl">{{trip().title}}</h2>
+  @if (showDetails()) {
+    <p class="text-cyan-900">{{trip().description}}</p>
+    <p>
+      @for (tag of tripTags(); track tag) {
+        <span class="px-2 py-1 rounded-md bg-slate-100 mr-2">{{tag}}</span>
+      }
+    </p>
+  }
+  <p class="text-cyan-900">
+    Vertical type:
+    <span class="px-2 py-1 rounded-md bg-cyan-500 text-slate-100 ml-2">{{trip().verticalType}}</span>
+  </p>
   <p class="text-cyan-900">
     Rating:
     <span class="px-2 py-1 rounded-md bg-amber-300">{{trip().rating}}</span>
@@ -12,9 +28,13 @@
       class="px-2 py-1 rounded-md"
       [class.bg-green-300]="trip().co2 <= 200"
       [class.bg-red-300]="trip().co2 > 200"
-    >{{trip().co2}}</span>
+    >{{trip().co2}} t</span>
   </p>
 </div>
-<div class="flex grow flex-col justify-end content-between">
+<div class="flex grow flex-col gap-4" [class.justify-end]="!showDetails()">
+  <p class="text-cyan-900 font-bold text-sm text-end">
+    Created at:
+    <em class="ml-1 font-light">{{trip().creationDate | date: 'MMM dd, y'}}</em>
+  </p>
   <p class="text-cyan-900 font-bold text-md text-end">{{trip().price | currency}}</p>
 </div>

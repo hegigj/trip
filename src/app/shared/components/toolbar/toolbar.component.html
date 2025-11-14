@@ -2,12 +2,12 @@
 <div class="flex gap-2">
   <get-trip-of-the-day-button/>
   @if (navigationBackButtonVisibility()) {
-    <button type="button">
+    <button type="button" (click)="navigateBack()">
       Back
     </button>
   }
   @if (shareButtonVisibility()) {
-    <button type="button">
+    <button type="button" (click)="share()">
       Share
     </button>
   }

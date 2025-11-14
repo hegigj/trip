@@ -1,12 +1,13 @@
-import {Component, input, output} from '@angular/core';
+import {Component, computed, input, output} from '@angular/core';
 import {TripDto} from '../../../core/dto/trip.dto';
-import {CurrencyPipe} from '@angular/common';
+import {CurrencyPipe, DatePipe} from '@angular/common';
 
 @Component({
   selector: 'trip',
   standalone: true,
   imports: [
-    CurrencyPipe
+    CurrencyPipe,
+    DatePipe
   ],
   templateUrl: './trip.component.html',
   host: {
@@ -16,9 +17,14 @@ import {CurrencyPipe} from '@angular/common';
 })
 export class TripComponent {
   public trip = input.required<TripDto>();
+  public showDetails = input<boolean>(false);
   public navigateToTripDetails = output<string>();
 
+  protected tripTags = computed(() => this.trip().tags)
+
   protected goToTripDetails(): void {
-    this.navigateToTripDetails.emit(this.trip().id);
+    if (this.showDetails()) {
+      this.navigateToTripDetails.emit(this.trip().id);
+    }
   }
 }
