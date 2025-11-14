@@ -1,13 +1,15 @@
 import {Component, computed, input, output} from '@angular/core';
 import {TripDto} from '../../../core/dto/trip.dto';
 import {CurrencyPipe, DatePipe} from '@angular/common';
+import {ScoreBadgePipe} from '../../pipes/score-badge.pipe';
 
 @Component({
   selector: 'trip',
   standalone: true,
   imports: [
     CurrencyPipe,
-    DatePipe
+    DatePipe,
+    ScoreBadgePipe
   ],
   templateUrl: './trip.component.html',
   host: {
@@ -23,7 +25,7 @@ export class TripComponent {
   protected tripTags = computed(() => this.trip().tags)
 
   protected goToTripDetails(): void {
-    if (this.showDetails()) {
+    if (!this.showDetails()) {
       this.navigateToTripDetails.emit(this.trip().id);
     }
   }

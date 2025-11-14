@@ -3,7 +3,7 @@
 } @else {
   <img class="rounded-md" [src]="trip().thumbnailUrl" [alt]="trip().title"/>
 }
-<div class="flex flex-col gap-4">
+<div class="flex grow flex-col gap-4">
   <h2 class="font-semibold text-cyan-900 text-2xl">{{trip().title}}</h2>
   @if (showDetails()) {
     <p class="text-cyan-900">{{trip().description}}</p>
@@ -31,10 +31,21 @@
     >{{trip().co2}} t</span>
   </p>
 </div>
-<div class="flex grow flex-col gap-4" [class.justify-end]="!showDetails()">
+<div class="flex flex-col gap-4 items-end">
+  @if (trip() | scoreBadge; as tripScore) {
+    <span
+      class="px-2 py-1 rounded-md text-lg"
+      [class.bg-green-300]="tripScore.score >= 80"
+      [class.text-green-900]="tripScore.score >= 80"
+      [class.bg-sky-300]="tripScore.score >= 60 && tripScore.score < 80"
+      [class.text-sky-900]="tripScore.score >= 60 && tripScore.score < 80"
+      [class.bg-amber-300]="tripScore.score < 60"
+      [class.text-amber-900]="tripScore.score < 60"
+    >{{tripScore.score / 10}} {{tripScore.tier}}</span>
+  }
   <p class="text-cyan-900 font-bold text-sm text-end">
     Created at:
     <em class="ml-1 font-light">{{trip().creationDate | date: 'MMM dd, y'}}</em>
   </p>
-  <p class="text-cyan-900 font-bold text-md text-end">{{trip().price | currency}}</p>
+  <p class="text-cyan-900 font-bold text-lg text-end">{{trip().price | currency}}</p>
 </div>
