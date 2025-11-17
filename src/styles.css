@@ -9,6 +9,10 @@ trips {
   }
 }
 
+label {
+  @apply text-cyan-900;
+}
+
 select,
 ::picker(select) {
   appearance: base-select;

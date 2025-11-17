@@ -1,5 +1,5 @@
 <form
-  class="flex flex-wrap gap-2"
+  class="flex flex-wrap gap-2 items-end"
   [formGroup]="searchQueryForm"
   (reset)="resetSearchQuery()"
 >
@@ -11,35 +11,49 @@
   >
   <custom-select
     label="Sort by:"
+    [showLabel]="true"
     [options]="sortByOptions"
     formControlName="sortBy"
   />
   <custom-select
     label="Order:"
+    [showLabel]="true"
     [options]="sortOrderOptions"
     formControlName="sortOrder"
   />
-  <input
-    type="number"
-    name="minPrice"
-    placeholder="Minimum you can pay:"
-    formControlName="minPrice"
-  >
-  <input
-    type="number"
-    name="maxPrice"
-    placeholder="Maximum you can pay:"
-    formControlName="maxPrice"
-  >
-  <input
-    type="number"
-    name="minRating"
-    placeholder="Rating starts from:"
-    [min]="1"
-    [max]="5"
-    [step]=".1"
-    formControlName="minRating"
-  >
+  <div class="flex flex-col">
+    <label for="minPrice">Min Price:</label>
+    <input
+      id="minPrice"
+      type="number"
+      name="minPrice"
+      placeholder="Minimum you can pay:"
+      formControlName="minPrice"
+    >
+  </div>
+  <div class="flex flex-col">
+    <label for="maxPrice">Max Price:</label>
+    <input
+      id="maxPrice"
+      type="number"
+      name="maxPrice"
+      placeholder="Maximum you can pay:"
+      formControlName="maxPrice"
+    >
+  </div>
+  <div class="flex flex-col">
+    <label for="minRating">Min Rating:</label>
+    <input
+      id="minRating"
+      type="number"
+      name="minRating"
+      placeholder="Rating starts from:"
+      [min]="1"
+      [max]="5"
+      [step]=".1"
+      formControlName="minRating"
+    >
+  </div>
   @if (showResetButton()) {
     <button class="px-3 py-1 rounded-md bg-slate-200 text-cyan-900 cursor-pointer" type="reset">
       Reset

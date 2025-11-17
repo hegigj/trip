@@ -73,8 +73,12 @@ export class TripSearch implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.storedSearchQuery()) {
+    if (
+      this.storedSearchQuery() &&
+      Object.keys(this.storedSearchQuery() as Partial<ISearchQuery>).length > 0
+    ) {
       this.searchQueryForm.patchValue(this.storedSearchQuery() as Partial<ISearchQuery>);
+      this.showResetButton.set(true);
     }
   }
 

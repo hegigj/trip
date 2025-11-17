@@ -1,7 +1,7 @@
 @if (showDetails()) {
   <img class="rounded-md" [src]="trip().imageUrl" [alt]="trip().title"/>
 } @else {
-  <img class="rounded-md" [src]="trip().thumbnailUrl" [alt]="trip().title"/>
+  <img class="rounded-md min-w-[200px]" [src]="trip().thumbnailUrl" [alt]="trip().title"/>
 }
 <div class="flex grow flex-col gap-4">
   <h2 class="font-semibold text-cyan-900 text-2xl">{{trip().title}}</h2>

@@ -17,6 +17,7 @@ import {ISelectOption} from '../../interfaces/select-option.interface';
   templateUrl: './custom-select.html',
 })
 export class CustomSelect implements ControlValueAccessor {
+  public showLabel = input<boolean>(false);
   public label = input.required<string>();
   public options = input.required<ISelectOption[]>();
 

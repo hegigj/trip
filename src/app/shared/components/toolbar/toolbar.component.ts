@@ -2,6 +2,7 @@ import {Component, inject, input} from '@angular/core';
 import {GetTripOfTheDayButton} from '../get-trip-of-the-day-button/get-trip-of-the-day-button';
 import {Router} from '@angular/router';
 import {environment} from '../../../../environments/environment.development';
+import {TripService} from '../../services/trip.service';
 
 @Component({
   selector: 'toolbar',
@@ -19,6 +20,11 @@ export class ToolbarComponent {
   public shareButtonVisibility = input<boolean>(false);
 
   private readonly router = inject(Router);
+  private readonly tripService = inject(TripService);
+
+  protected getTripOfTheDay(): void {
+    this.tripService.getTripOfTheDay();
+  }
 
   protected navigateBack(): void {
     this.router.navigate(['/']);

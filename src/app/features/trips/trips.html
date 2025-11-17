@@ -4,9 +4,12 @@
     (searchQuery)="searchQueryHandler($event)"
   />
 </section>
-<section id="tripOfTheDay">
-  <h2>Trip of the day</h2>
-</section>
+@if (tripOfTheDay()) {
+  <section id="tripOfTheDay">
+    <h2>Trip of the day</h2>
+    <trip [trip]="getTrip(tripOfTheDay())" (navigateToTripDetails)="navigateToTripDetails($event)"/>
+  </section>
+}
 <section id="trips">
   <h2>Trips</h2>
 

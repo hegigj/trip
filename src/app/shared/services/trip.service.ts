@@ -1,9 +1,9 @@
-import {inject, Injectable} from '@angular/core';
+import {computed, inject, Injectable, signal} from '@angular/core';
 import {ApiTripService} from '../../core/apis/api-trip.service';
 import {TripQueryDto} from '../../core/dto/trip-query.dto';
 import {ISearchQuery} from '../interfaces/search-query.interface';
 import {IPaginator} from '../interfaces/paginator.interface';
-import {Observable} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import {TripDto} from '../../core/dto/trip.dto';
 import {PageOf} from '../../core/dto/page-of.dto';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -13,6 +13,10 @@ import {storageConfig} from '../../core/configs/storage.config';
   providedIn: 'root'
 })
 export class TripService {
+  public tripOfTheDay = computed(() => this.innerTripOfTheDay());
+
+  protected readonly innerTripOfTheDay = signal<TripDto | null>(null);
+
   private readonly apiTripService = inject(ApiTripService);
   private tripsQuery: TripQueryDto = { page: 1, limit: 10 };
 
@@ -71,11 +75,33 @@ export class TripService {
   }
 
   public getTrips(): Observable<PageOf<TripDto>> {
+    this.getTripOfTheDay(false);
+
     return this.apiTripService.getTrips(this.tripsQuery);
   }
 
-  public getTripOfTheDay(): Observable<TripDto> {
-    return this.apiTripService.getTrip();
+  public getTripOfTheDay(makeAPICall: boolean = true): void {
+    const storedTripOfTheDay = localStorage.getItem(storageConfig.tripOfTheDay);
+
+    if (storedTripOfTheDay) {
+      this.innerTripOfTheDay.set(JSON.parse(storedTripOfTheDay));
+      return;
+    }
+
+    if (makeAPICall) {
+      this.apiTripService.getTrip()
+        .pipe(
+          tap(trip => {
+            localStorage.setItem(storageConfig.tripOfTheDay, JSON.stringify(trip));
+            this.innerTripOfTheDay.set(trip);
+          })
+        )
+        .subscribe();
+    }
+  }
+
+  public removeStoredTripOfTheDay(): void {
+    localStorage.removeItem(storageConfig.tripOfTheDay);
   }
 
   public getTripDetails(tripId: string): Observable<TripDto> {

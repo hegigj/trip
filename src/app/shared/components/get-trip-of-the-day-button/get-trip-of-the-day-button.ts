@@ -1,6 +1,7 @@
-import {Component, OnDestroy, OnInit, output, signal} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, output, signal} from '@angular/core';
 import {storageConfig} from '../../../core/configs/storage.config';
 import dayjs from 'dayjs';
+import {TripService} from '../../services/trip.service';
 
 @Component({
   selector: 'get-trip-of-the-day-button',
@@ -26,6 +27,7 @@ export class GetTripOfTheDayButton implements OnInit, OnDestroy {
   protected availableIn = signal<string>('');
 
   private intervalRef?: number;
+  private readonly tripService = inject(TripService);
 
   ngOnInit(): void {
     this.checkTripOfTheDayAvailability();
@@ -39,8 +41,7 @@ export class GetTripOfTheDayButton implements OnInit, OnDestroy {
   }
 
   protected getTripOfTheDayHandler(): void {
-    console.log('getTripOfTheDayHandler');
-    const unavailableUntil = dayjs().add(1, 'minute').toISOString();
+    const unavailableUntil = dayjs().endOf('day').toISOString();
     localStorage.setItem(storageConfig.getTripOfTheDayUnavailableUntil, unavailableUntil);
 
     this.checkTripOfTheDayAvailability(unavailableUntil);
@@ -55,12 +56,11 @@ export class GetTripOfTheDayButton implements OnInit, OnDestroy {
     const now = dayjs();
 
     if (unavailableUntil && dayjs(unavailableUntil).isAfter(now)) {
-      console.log('getTripOfTheDayAvailable');
       this.disabled.set(true);
     } else {
-      console.log('getTripOfTheDayDisabled');
       this.disabled.set(false);
       localStorage.removeItem(storageConfig.getTripOfTheDayUnavailableUntil);
+      this.tripService.removeStoredTripOfTheDay();
     }
   }
 
@@ -76,13 +76,16 @@ export class GetTripOfTheDayButton implements OnInit, OnDestroy {
       return;
     }
 
-    const now = dayjs();
     const availableAt = dayjs(unavailableUntil);
 
     const updateAvailableIn = () => {
+      const now = dayjs();
+
       if (availableAt.isBefore(now)) {
         this.disabled.set(false);
+
         localStorage.removeItem(storageConfig.getTripOfTheDayUnavailableUntil);
+        this.tripService.removeStoredTripOfTheDay();
 
         if (this.intervalRef) {
           clearInterval(this.intervalRef);
