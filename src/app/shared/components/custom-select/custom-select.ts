@@ -21,7 +21,7 @@ export class CustomSelect implements ControlValueAccessor {
   public label = input.required<string>();
   public options = input.required<ISelectOption[]>();
 
-  public value = signal<any>(null);
+  protected value = signal<any>(null);
 
   onChange = (value: any) => {};
   onTouched = () => {};
